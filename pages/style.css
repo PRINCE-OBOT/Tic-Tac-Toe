@@ -1,0 +1,38 @@
+.container{
+    & > div{
+        position: relative;
+    }
+}
+#general-form{
+    z-index: 2;
+}
+.tic-tac-toe-box{
+    background: #8b7a42;
+    border-radius: 10px;
+    height: 400px;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    position: relative;
+    display: grid;
+    place-content: center;
+    grid-template-columns: repeat(3, 120px);
+    grid-template-rows: repeat(3, 120px);
+    gap: 5px;
+    & > div{
+        background-color: peachpuff;
+        box-shadow: 2px 2px 15px rgba(34, 34, 25, 0.5);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+    }
+}
+
+.display-result-dialog{
+    position: absolute;
+    inset: 0;
+    background: #e44;
+    
+}

@@ -4,9 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="./pages/script.js" defer></script>
+    <link rel="stylesheet" href="./pages/style.css">
     <title>Tic Tac Toe</title>
 </head>
 <body>
-    
+    <div class="container">
+        <h1>Tic Tac Toe</h1>
+        <div id="general-form">
+            <div>
+                <label for="default-name">What to use default name? <span>Just enter number of player</span> </label>
+                <input type="text" id="default-name" class="inp-default-name">
+                <button class="btn-send-default-name" type="button">Send</button>
+            </div>
+            <div>
+                <button class="btn-show-dialog-custom-name" type="button">Custom name</button>
+                <dialog class="dialog-custom-name" closedby="any">
+                    <form action="">
+                        <h2>Minimum of 2 players and Maximum of 4 players</h2>
+                        <div>
+                            <label for="player-1">Player 1<span>*</span></label>
+                            <input type="text" id="player-1" class="player-custom-name" autofocus required>
+                        </div>
+                        <div>
+                            <label for="player-2">Player 2<span>*</span></label>
+                            <input type="text" id="player-2" class="player-custom-name" required>
+                        </div>
+                        <div>
+                            <button class="btn-send-custom-name" formmethod="dialog">Send</button>
+                            <button type="button" class="btn-close-dialog-custom-name">Close</button>
+                            <button class="add-more-players" type="button">Add more players</button>
+                        </div>
+                    </form>
+                </dialog>
+            </div>
+        </div>
+        <div class="tic-tac-toe-box">
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <div class="box"></div>
+            <dialog class="dialog-display-result"  closedby="any">
+                <p class="display-result">Result</p>
+            </dialog>
+        </div>
+    </div>
 </body>
 </html>
