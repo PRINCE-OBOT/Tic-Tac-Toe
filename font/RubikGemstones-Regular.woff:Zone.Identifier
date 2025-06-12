@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://cloudconvert.com/
+HostUrl=https://eu-central.storage.cloudconvert.com/tasks/e12d7f38-0b54-4a61-97a0-71218c14db35/RubikGemstones-Regular.woff?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=cloudconvert-production%2F20250612%2Ffra%2Fs3%2Faws4_request&X-Amz-Date=20250612T233635Z&X-Amz-Expires=86400&X-Amz-Signature=1ce8689545aae0715e4b0a3c8c99e7166aef23f0c5a27dce7d273dbd98da1d44&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3D%22RubikGemstones-Regular.woff%22&response-content-type=font%2Fwoff&x-id=GetObject
