@@ -108,6 +108,10 @@ const ticTacToe = (function (doc) {
   }
 
   function getResetGameFeedback(){
+      if(!isSetPlayerChoice){
+        alert('No one played yet')
+        return
+      }
       isContinue = confirm("Your board will be cleared - Do you want to continue?")
       if(isContinue === false) return
       resetGame()
@@ -126,26 +130,31 @@ const ticTacToe = (function (doc) {
         addedPlayer.push(i);
         addPlayer(playerCustomName.value, i);
     });
+    ticTacToeBox.classList.add('ready-to-play')
   }
 
-    // change name to getNumberOfPlayers
   function getNumberOfPlayer(e) {
     if (isWinner || isSetPlayerChoice) {
         getResetGameFeedback()
     }
     if (isContinue === false || players.length > 0 || checkIfInputIsEmpty(e))
       return;
+
+    let numOfPlayers = +inpDefaultName.value;
+    if(numOfPlayers > 3 || numOfPlayers < 2 || typeof numOfPlayers !== "number" || isNaN(numOfPlayers)){
+        alert('Invalid requirement')
+        return
+    }
     if (!isAddedPlayer) {
       addedPlayer.splice(0);
       isAddedPlayer = true;
     }
-    let numOfPlayers = +inpDefaultName.value;
-    if (typeof numOfPlayers === "number" && !isNaN(numOfPlayers)) {
       for (let i = 0; i < numOfPlayers; i++) {
         addedPlayer.push(i);
         addPlayer(null, i);
       }
-    }
+      ticTacToeBox.classList.add('ready-to-play')
+    
   }
 
   function addPlayer(customName, i) {
@@ -188,10 +197,6 @@ const ticTacToe = (function (doc) {
       .map((val) => (val.marker ? val.marker : val))
       .join("");
     let playingMarker = players.map((val) => val.marker).join("");
-    // let reg = new RegExp(
-    //   `\(\(\[${playingMarker}]\)\\2{2}\)\|\(\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\(\(\[${playingMarker}]\)\.\.\.\\6\.\.\.\\6)\|\^\(\.\.\(\[${playingMarker}]\)\.\\8\.\\8\)`,
-    //   "gi"
-    // );
     let reg = new RegExp(
       `\^\(\(\[${playingMarker}]\)\.\.\\2\.\.\\2\)\|\^\(\.\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\^\(\.\.\(\[${playingMarker}]\)\.\.\\6\.\.\\6\)\|\^\(\(\[${playingMarker}]\)\\8{2}\)\|\^\(\.\.\.\(\[${playingMarker}]\)\\10{2}\)\|\^\(\.{6}\(\[${playingMarker}]\)\\12{2}\)\|\^\(\.\.\([${playingMarker}]\)\.\\14\.\\14\)\|\^\(\(\[${playingMarker}]\)\.{3}\\16\.{3}\\16\)`,
       "gi"
@@ -225,7 +230,7 @@ const ticTacToe = (function (doc) {
     isAddedPlayer = true;
     isSetPlayerChoice = false;
     displayTurn.textContent = "No one played yet"
+    ticTacToeBox.classList.remove("ready-to-play");
   }
-  return { addPlayer, setPlayerChoice, players, gameBoard, addedPlayer, };
 })(document);
 
