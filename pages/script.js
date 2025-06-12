@@ -1,84 +1,166 @@
 const ticTacToe = (function (doc) {
-  const gameBoard = Array(9).fill("!");
-  const players = [];
-  const marker = ["X", "O", "Q", "R"];
+    const gameBoard = Array(9).fill("!");
+    const players = [];
+    const marker = ["X", "O", "Q"];
+    let isWinner, isSetPlayerChoice;
 
   const container = doc.querySelector(".container");
   const ticTacToeBox = container.querySelector(".tic-tac-toe-box");
   const inpDefaultName = container.querySelector(".inp-default-name");
   const dialogDisplayResult = container.querySelector(".dialog-display-result");
   const dialogCustomName = container.querySelector(".dialog-custom-name");
-  const btnSendDefaultName = container.querySelector(".btn-send-default-name");
-  const btnShowDialogCustomName = container.querySelector(".btn-show-dialog-custom-name");
-  const btnSendCustomName = dialogCustomName.querySelector(".btn-send-custom-name");
-  const btnCloseDialogCustomName = dialogCustomName.querySelector(".btn-close-dialog-custom-name");
-  const btnAddMorePlayers = dialogCustomName.querySelector('.add-more-players');
   const displayResult = dialogDisplayResult.querySelector(".display-result");
-  const formCustomName = dialogCustomName.querySelector('form')
+  const customNameCon = dialogCustomName.querySelector(".customNameCon");
+  const formContainer = container.querySelector(".form-container");
+  const displayTurn = container.querySelector(".display-turn")
 
-  btnSendDefaultName.addEventListener("click", getDefaultName);
   ticTacToeBox.addEventListener("click", setPlayerChoice);
-  btnShowDialogCustomName.addEventListener('click', getCustomName)
-  btnCloseDialogCustomName.addEventListener('click', ()=> dialogCustomName.close())
-  btnSendCustomName.addEventListener('click',  sendCustomName)
-  btnAddMorePlayers.addEventListener('click', addMorePlayers)
+  formContainer.addEventListener("click", modifyCustomNameCon);
 
+  function modifyCustomNameCon(e) {
+    if (e.target.tagName != "BUTTON") return;
+    let clickBtn = e.target.className;
 
-  let minPlayers = 2
-  function addMorePlayers(){
+    switch (clickBtn) {
+      case "btn-send-custom-name": sendCustomName(e);
+        break;
+      case "btn-close-dialog-custom-name": dialogCustomName.close();
+        break;
+      case "add-more-players": addMorePlayers();
+        break;
+      case "btn-send-default-name": getNumberOfPlayer(e);
+        break;
+      case "btn-show-dialog-custom-name": showDialogCustomName()
+        break;
+      case "btn-remove-inp-field": removeInpField(e);
+        break;
+     case "reset-board" : getResetGameFeedback()
+        break;
+      default: console.log(clickBtn);
+    }
+  }
+
+  let isContinue = null
+  function showDialogCustomName(){
+    if(isWinner || isSetPlayerChoice){
+        getResetGameFeedback();
+    }
+    if(isContinue === false) return
+    dialogCustomName.show();
+  }
+
+  // keep track when a player has been deleted in the custom name field
+  // To maintain order of custom name marker and the marker on the board
+  const addedPlayer = [];
+
+  function removeInpField(e) {
+    const div = e.target.closest("div");
+    let isDelete = confirm(
+      "This action cannot be undone - Are you sure you want to delete this field?"
+    );
+    if (!isDelete) return;
+    addedPlayer.splice([...customNameCon.children].indexOf(div), 1);
+    div.remove();
+  }
+
+  function checkIfInputIsEmpty(e){
+    let isEmpty
+    e.target.closest('form').querySelectorAll('input').forEach((input)=>{
+        if(input.value === ''){
+            isEmpty = true
+        }
+    })
+    return isEmpty
+  }
+
+  let minPlayers = 2;
+  let isAddedPlayer = true;
+  function addMorePlayers() {
     if (minPlayers === marker.length) return;
-    const label = document.createElement('label')
-    const input = document.createElement('input')
-    const span = document.createElement('span')
-    const div = document.createElement('div')
     
-    label.setAttribute("for", `player-${minPlayers + 1}`);
-    label.textContent = `Player ${minPlayers+1}`
-    input.id = `player-${minPlayers+1}`
+    if(isAddedPlayer){
+        addedPlayer.splice(0)
+        addedPlayer.push(0, 1);
+        isAddedPlayer = false
+    }
+    
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    const span = document.createElement("span");
+    const div = document.createElement("div");
+    const btnRemove = document.createElement("button");
+
+    label.setAttribute("for", `player-${marker[minPlayers]}`);
+    label.textContent = `Player ${marker[minPlayers]}`;
+    input.id = `player-${marker[minPlayers]}`;
     input.classList.add("player-custom-name");
-    span.textContent = '*'
+    input.required = true;
+    span.textContent = "*";
+    btnRemove.textContent = "x";
+    btnRemove.type = "button";
+    btnRemove.classList.add("btn-remove-inp-field");
 
-    label.append(span)
-    div.append(label, input)
-    formCustomName.append(div)
-    minPlayers++
+    addedPlayer.push(minPlayers);
+    label.append(span);
+    div.append(label, input, btnRemove);
+    customNameCon.append(div);
+    minPlayers++;
   }
 
-  function sendCustomName(){
-      const playerCustomNames =
-      dialogCustomName.querySelectorAll(".player-custom-name");
-      
-      playerCustomNames.forEach((playerCustomName)=>{
-          addPlayer(playerCustomName.value)
-      })
-
+  function getResetGameFeedback(){
+      isContinue = confirm("Your board will be cleared - Do you want to continue?")
+      if(isContinue === false) return
+      resetGame()
   }
 
-  let isWinner;
-  function getDefaultName() {
-    if (players.length > 0) return;
+  function sendCustomName(e) {
+    if(checkIfInputIsEmpty(e)) return
+    if(isAddedPlayer){
+        addedPlayer.splice(0)
+        isAddedPlayer = false
+    }
+    const playerCustomNames = dialogCustomName.querySelectorAll(
+      ".player-custom-name"
+    );
+    playerCustomNames.forEach((playerCustomName, i) => {
+        addedPlayer.push(i);
+        addPlayer(playerCustomName.value, i);
+    });
+  }
+
+    // change name to getNumberOfPlayers
+  function getNumberOfPlayer(e) {
+    if (isWinner || isSetPlayerChoice) {
+        getResetGameFeedback()
+    }
+    if (isContinue === false || players.length > 0 || checkIfInputIsEmpty(e))
+      return;
+    if (!isAddedPlayer) {
+      addedPlayer.splice(0);
+      isAddedPlayer = true;
+    }
     let numOfPlayers = +inpDefaultName.value;
     if (typeof numOfPlayers === "number" && !isNaN(numOfPlayers)) {
       for (let i = 0; i < numOfPlayers; i++) {
-        addPlayer();
+        addedPlayer.push(i);
+        addPlayer(null, i);
       }
     }
   }
 
-  function getCustomName(){
-    dialogCustomName.show()
+  function addPlayer(customName, i) {
+      if (players.length === marker.length) return;
+      players.push({
+          name: customName || `Player ${players.length + 1}`,
+          marker: marker[addedPlayer[i]],
+        });
   }
-
-  function addPlayer(customName) {
-    if (players.length === marker.length) return;
-    players.push({
-      name: customName || `Player ${players.length + 1}`,
-      marker: marker[players.length],
-    });
-  }
-
-  let i = 0;
+  let i = 0
+  let j = 1;
   function setPlayerChoice(e) {
+    if(!isSetPlayerChoice && players.length > 1){
+        isSetPlayerChoice = true
+    }
     if (players.length === 0 || !e.target.classList.contains("box") || isWinner)
       return;
     let pos = [...ticTacToeBox.children].indexOf(e.target);
@@ -89,12 +171,15 @@ const ticTacToe = (function (doc) {
 
     gameBoard[pos] = players[i];
     e.target.textContent = players[i].marker;
-
+    
     // Number of boxes marked by both players
     const numOfChoice = gameBoard.filter((val) => val != "!").length;
     if (numOfChoice > players.length * 2) {
-      checkWinner(players[i].marker);
+        checkWinner(players[i].marker);
     }
+    displayTurn.textContent = `${players[i].name} (${players[i].marker}) played >> ${players[j].name} (${players[j].marker})`;
+    j++
+    if (j === players.length) j = 0;
     i++;
   }
 
@@ -104,30 +189,39 @@ const ticTacToe = (function (doc) {
       .join("");
     let playingMarker = players.map((val) => val.marker).join("");
     let reg = new RegExp(
-      `\(\(\[${playingMarker}]\)\\2{2}\)\|\(\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\(\(\[${playingMarker}]\)\.\.\.\\6\.\.\.\\6)\|\(\.\.\(\[${playingMarker}]\)\.\.\\8\.\\8\)`,
+      `\(\(\[${playingMarker}]\)\\2{2}\)\|\(\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\(\(\[${playingMarker}]\)\.\.\.\\6\.\.\.\\6)\|\^\(\.\.\(\[${playingMarker}]\)\.\\8\.\\8\)`,
       "gi"
     );
-
     // Checks the player marker that first matches the pattern - then wins
-    let winner = reg.test(markers)
+    let winner = reg.test(markers);
 
     if (winner) {
       let winnerDetails = players.find((val) => val.marker === playerMarker);
       displayResult.textContent = `${winnerDetails.name} ( ${winnerDetails.marker} ) won`;
       isWinner = true;
       dialogDisplayResult.show();
+    } else if([...ticTacToeBox.children].every((child)=> child.textContent != "") && isSetPlayerChoice){
+        displayResult.textContent = "It's a tie";
+        dialogDisplayResult.show();
     }
   }
 
-  return { addPlayer, setPlayerChoice, players, gameBoard };
+  function resetGame() {
+    gameBoard.splice(0);
+    gameBoard.push(...Array(9).fill("!"));
+    [...ticTacToeBox.children].forEach((child) => {
+      child.textContent = "";
+    });
+    players.splice(0);
+    addedPlayer.splice(0);
+    minPlayers = 2;
+    i = 0
+    j = 1
+    isWinner = false;
+    isAddedPlayer = true;
+    isSetPlayerChoice = false;
+    displayTurn.textContent = "No one played yet"
+  }
+  return { addPlayer, setPlayerChoice, players, gameBoard, addedPlayer, };
 })(document);
 
-// ticTacToe.addPlayer("Prince");
-// ticTacToe.addPlayer("Grace");
-
-// ticTacToe.setPlayerChoice(9);
-// ticTacToe.setPlayerChoice(1);
-// ticTacToe.setPlayerChoice(6);
-// ticTacToe.setPlayerChoice(4);
-// ticTacToe.setPlayerChoice(8);
-// ticTacToe.setPlayerChoice(7);
