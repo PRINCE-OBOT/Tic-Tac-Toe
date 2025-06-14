@@ -17,56 +17,35 @@
 </head>
 <body>
     <div class="container">
-        <h1>Tic Tac Toe</h1>
-        <div class="form-container">
-            <form id="form-default">
+        <div class="custom-name-con">
+            <button type="button">Add Custom name</button>
+            <form action="">
                 <div>
-                    <label for="default-name">Want to use default names? <span>Just enter number of player</span> <h5>Min of 2 and Max of 3</h5> </label>
-                    <input type="search" id="default-name" class="inp-default-name" required>
-                    <button class="btn-send-default-name" formmethod="dialog">Send</button>
+                    <label for="player1">Player 1</label>
+                    <input type="text" id="player1" required>
+                </div>
+                <div>
+                    <label for="player2">Player 2</label>
+                    <input type="text" id="player2" required>
+                </div>
+                <div>
+                    <button class="submit-custom-name-form">Submit</button>
+                    <button class="close-custom-name-form">Close</button>
+                    <button class="reset-custom-name-form">Reset</button>
                 </div>
             </form>
-            <button type="button" class="reset-board">Reset Board</button>
-            <div id="form-custom">
-                <button class="btn-show-dialog-custom-name" type="button">Custom name</button>
-                <dialog class="dialog-custom-name" closedby="any">
-                    <form action="">
-                        <h4>Minimum of 2 players and Maximum of 3 players</h4>
-                        <div class="customNameCon">
-                            <div>
-                                <label for="player-X">Player X<span>*</span></label>
-                                <input type="text" id="player-X" class="player-custom-name" autofocus required>
-                            </div>
-                            <div>
-                                <label for="player-O">Player O<span>*</span></label>
-                                <input type="text" id="player-O" class="player-custom-name" required>
-                            </div>
-                        </div>
-                        <div>
-                            <button class="btn-send-custom-name" formmethod="dialog">Send</button>
-                            <button type="button" class="btn-close-dialog-custom-name">Close</button>
-                            <button class="add-more-players" type="button">Add more players</button>
-                            <button type="reset">Reset</button>
-                        </div>
-                    </form>
-                </dialog>
-            </div>
         </div>
-        <h5 class="display-turn">No one played yet</h5>
-        <div class="tic-tac-toe-box">
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-            <div class="box"></div>
-        </div>
-        <dialog class="dialog-display-result"  closedby="any">
-            <p class="display-result">Result</p>
-        </dialog>
+       <div class="cell-container">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+       </div>
     </div>
 </body>
 </html>
