@@ -117,7 +117,7 @@ function resetBoard(){
 
 function resetPlayer(){
   let isResetPlayer = confirm('Resetting the player will also reset the board, click to continue')
-  if(!isResetPlayer) return false
+  if(!isResetPlayer) return falsezz
   control.setGameEndToFalse()
   cells.resetBoard()
   control.resetPlayer();
@@ -156,7 +156,7 @@ function addMorePlayer(){
 function checkIfBoardIsEmpty(){
   let isEmpty = cells.getCellInBoard().every((val) => val === "!");
   if (!isEmpty) {
-    if(resetPlayer() === false) return MSS_FOR_ALREADY_ADD_PLAYER;
+    resetPlayer();
   }
   if (isEmpty && control.getAddPlayer().length >= MIN_PLAYERS) {
     alert(
