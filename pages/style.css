@@ -15,7 +15,7 @@ body{
 .container{
     width: fit-content;
     margin: 0 auto 0;
-    background-color: rgb(187, 186, 144);
+    background-color: rgb(192, 194, 95);
     padding: 20px;
     border-radius: 20px;
 }
@@ -96,6 +96,14 @@ button{
     background-color: rgb(191, 154, 101);
     max-width: 150px;
     padding: 10px;
+    transition: 400ms;
+    &:hover{
+        opacity: 0.9;
+    }
+    &:active{
+        opacity: 0.6;
+        transform: scale(0.9);
+    }
 }
 .reset-board{
     background-color: var(--light-red);
@@ -136,6 +144,14 @@ button{
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 400ms;
+    &:hover{
+        opacity: 0.9;
+    }
+    &:active{
+        opacity: 0.6;
+        transform: scale(0.9);
+    }
 }
 .display-result-dialog{
     position: relative;
