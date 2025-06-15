@@ -90,10 +90,10 @@ const checkWinner = (activeCells, player)=>{
     const markers = cells.getCellInBoard().map((val)=> val.marker ? val.marker : val).join('')
 
     let reg = new RegExp(
-      `\^\(\(\[${playingMarker}]\)\.\.\\MIN_PLAYERS\.\.\\MIN_PLAYERS\)\|\^\(\.\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\^\(\.\.\(\[${playingMarker}]\)\.\.\\6\.\.\\6\)\|\^\(\(\[${playingMarker}]\)\\8{MIN_PLAYERS}\)\|\^\(\.\.\.\(\[${playingMarker}]\)\\10{MIN_PLAYERS}\)\|\^\(\.{6}\(\[${playingMarker}]\)\\12{MIN_PLAYERS}\)\|\^\(\.\.\([${playingMarker}]\)\.\\14\.\\14\)\|\^\(\(\[${playingMarker}]\)\.{3}\\16\.{3}\\16\)`,
+      `\^\(\(\[${playingMarker}]\)\.\.\\2\.\.\\2\)\|\^\(\.\(\[${playingMarker}]\)\.\.\\4\.\.\\4\)\|\^\(\.\.\(\[${playingMarker}]\)\.\.\\6\.\.\\6\)\|\^\(\(\[${playingMarker}]\)\\8{2}\)\|\^\(\.\.\.\(\[${playingMarker}]\)\\10{2}\)\|\^\(\.{6}\(\[${playingMarker}]\)\\12{2}\)\|\^\(\.\.\([${playingMarker}]\)\.\\14\.\\14\)\|\^\(\(\[${playingMarker}]\)\.{3}\\16\.{3}\\16\)`,
       "gi"
     );
-
+    
     let isCompleteMatch = reg.test(markers)
 
     if(isCompleteMatch){
