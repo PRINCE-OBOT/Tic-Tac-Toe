@@ -1,5 +1,69 @@
+
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --light-green : rgb(179, 208, 179);
+    --light-red : rgb(198, 121, 121);
+    --medium-red : rgb(198, 87, 87);
+}
+.container{
+    width: fit-content;
+    margin: 0 auto 0;
+}
+.number-of-player-form{
+    margin: 20px 0;
+    border: 1px solid rgb(19, 19, 10);
+    border-left: 4px solid #443;
+    padding: 10px;
+    border-radius: 10px;
+    & label{
+        text-align: center;
+    }
+}
+input{
+    height: 30px;
+    border-radius: 6px;
+    padding-left: 5px;
+    font-size: 1rem;
+}
+.custom-name-con dialog{
+    transform: translate(calc(50vw - 50%), 5px);
+    border: none;
+    border-radius: 10px;
+    & form{
+        padding: 20px 10px;
+        display: grid;
+        gap: 10px;
+        border-radius: 10px;
+    }
+}
+
+button{
+    padding: 5px;
+    box-shadow: 1px 1px 10px rgba(0 100 0 / 0.2);
+    border: 1px solid rgb(70, 58, 15);
+    border-radius: 5px;
+    color: #020;
+    font-weight: 600;
+    background-color: rgb(191, 154, 101);
+}
+.reset-board{
+    background-color: var(--light-red);
+}
+.reset-player{
+    background-color: var(--medium-red);
+}
+.close-custom-name-form{
+    background-color: rgb(189, 212, 147);
+}
+.reset-custom-name-form{
+    background-color: var(--light-red);
+}
 .cell-container{
-    background-color: rgb(179, 208, 179);
+    background-color: var(--light-green);
     width: fit-content;
     display: grid;
     grid-template-columns: repeat(3, 100px);
@@ -7,9 +71,28 @@
     gap: 10px;
     padding: 10px;
     border-radius: 10px;
+    margin-top: 5px;
 }
 .cell{
     box-shadow: 2px 2px 10px rgba(0 0 0 / 0.5);
     background-color: green;
     border-radius: 10px;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.display-result-dialog{
+    transform: translate(calc(50vw - 50%), 20px);
+    border: none;
+}
+.display-result{
+    padding: 10px;
+    box-shadow: 1px 1px 5px rgba(0 0 0 / 0.6);
+    border: none;
+    border-radius: 10px;
+    background-color: var(--light-green);
+    max-width: 300px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }

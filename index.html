@@ -18,22 +18,34 @@
 <body>
     <div class="container">
         <div class="custom-name-con">
-            <button type="button">Add Custom name</button>
-            <form action="">
+            <form action="" class="number-of-player-form">
                 <div>
-                    <label for="player1">Player 1</label>
-                    <input type="text" id="player1" required>
-                </div>
-                <div>
-                    <label for="player2">Player 2</label>
-                    <input type="text" id="player2" required>
-                </div>
-                <div>
-                    <button class="submit-custom-name-form">Submit</button>
-                    <button class="close-custom-name-form">Close</button>
-                    <button class="reset-custom-name-form">Reset</button>
+                    <label for="number-of-player">Want to use Default Name ? Just enter number of player <h5>Min of 2 and Max of 3</h5></label>
+                    <input type="number" class="input-number-of-player" max="3" min="2" required>
+                    <button formmethod="dialog" class="number-of-player">Send</button>
                 </div>
             </form>
+            <button type="button" class="add-custom-name">Add Custom Name</button>
+            <button type="button" class="reset-board">Reset Board</button>
+            <button type="button" class="reset-player">Reset Player</button>
+            <dialog closedby="any">
+                <form action="">
+                    <div>
+                        <label for="player1">Player 1:</label>
+                        <input type="text" id="player1" class="custom-input" required>
+                    </div>
+                    <div>
+                        <label for="player2">Player 2:</label>
+                        <input type="text" id="player2" class="custom-input" required>
+                    </div>
+                    <div>
+                        <button class="submit-custom-name-form" formmethod="dialog">Submit</button>
+                        <button class="add-more-players">Add more players</button>
+                        <button class="close-custom-name-form" type="button">Close</button>
+                        <button class="reset-custom-name-form" type="reset">Reset</button>
+                    </div>
+                </form>
+            </dialog>
         </div>
        <div class="cell-container">
         <div class="cell"></div>
@@ -45,6 +57,12 @@
         <div class="cell"></div>
         <div class="cell"></div>
         <div class="cell"></div>
+       </div>
+       <div class="display-result-con">
+        <dialog class="display-result-dialog" closedby="any">
+            <p class="display-result"></p>
+            <button>Close</button>
+        </dialog>
        </div>
     </div>
 </body>
