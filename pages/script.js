@@ -156,7 +156,7 @@ function addMorePlayer(){
 function checkIfBoardIsEmpty(){
   let isEmpty = cells.getCellInBoard().every((val) => val === "!");
   if (!isEmpty) {
-    resetPlayer();
+    if(resetPlayer() === false) return MSS_FOR_ALREADY_ADD_PLAYER;
   }
   if (isEmpty && control.getAddPlayer().length >= MIN_PLAYERS) {
     alert(
