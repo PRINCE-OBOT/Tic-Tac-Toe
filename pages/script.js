@@ -1,15 +1,22 @@
+
 const TOTAL_CELLS = 9
 const MIN_PLAYERS = 2
+const MAX_PLAYERS = 3
 const MSS_FOR_ALREADY_ADD_PLAYER = "Already added player";
 const MSS_FOR_MARKED_CELL = "The board is marked";
+const MSS_FOR_EMPTY_CELL = "No one played yet";
 
 const container = document.querySelector('.container')
 const cellContainer = container.querySelector(".cell-container")
 const customNameCon = container.querySelector(".custom-name-con");
+const customNameForm = customNameCon.querySelector(".custom-name-form");
 const dialog = customNameCon.querySelector("dialog");
 const displayResult = container.querySelector('.display-result')
 const displayResultDialog = container.querySelector(".display-result-dialog");
+const displayTurn = container.querySelector('.display-turn')
+const removeDisplayResult = container.querySelector(".remove-display-result");
 
+displayTurn.textContent = MSS_FOR_EMPTY_CELL
 const GameController = ()=>{
   const players = []
     
@@ -22,30 +29,26 @@ const GameController = ()=>{
     }
     const getAddPlayer = ()=> players
 
-    let i = -1
+    let activePlayer = -1
+    let nextPlayer = 0
     const switchPlayer = () => {
-      i++
-      if(i == players.length) i = 0
+      activePlayer++
+      nextPlayer++
+      if(activePlayer == players.length) activePlayer = 0
+      if(nextPlayer == players.length) nextPlayer = 0
     };
-    const getActivePlayer = () => players[i]; 
+    const getActivePlayer = () => players[activePlayer]; 
+    const getNextPlayer = () => players[nextPlayer]
     const resetPlayer = ()=>{
-      i = -1
+      activePlayer = -1
+      nextPlayer = 0
       players.splice(0)
     }
     let isGameEnd 
     const setGameEndToTrue = ()=> isGameEnd = true
     const setGameEndToFalse = ()=> isGameEnd = false
     const getGameStatus = ()=> isGameEnd
-    return {
-      addPlayer,
-      getAddPlayer,
-      getActivePlayer,
-      switchPlayer,
-      resetPlayer,
-      setGameEndToTrue,
-      setGameEndToFalse,
-      getGameStatus
-    };
+    return {addPlayer,getAddPlayer,getActivePlayer,switchPlayer,resetPlayer,setGameEndToTrue,setGameEndToFalse,getGameStatus,getNextPlayer};
 }
 const control = GameController()
 
@@ -72,9 +75,9 @@ cellContainer.addEventListener('click', (e)=>{
   if (
     cells.addCellToBoard(control.getActivePlayer(), indOfCell) ===
     MSS_FOR_MARKED_CELL
-  )
-    return;
+  )return;
   e.target.textContent = control.getActivePlayer().marker
+  displayTurn.textContent = `${control.getActivePlayer().name} ( ${control.getActivePlayer().marker} ) >> ${control.getNextPlayer().name} (${control.getNextPlayer().marker})`
   
   const possibleStepToWin = 5
   let activeCells = cells.getCellInBoard().filter((val) => val != "!").length;
@@ -108,6 +111,8 @@ function resetBoard(){
   control.setGameEndToFalse()
   cells.resetBoard();
   [...cellContainer.children].forEach((child)=> child.textContent = '')
+  displayResultDialog.close()
+  displayTurn.textContent = MSS_FOR_EMPTY_CELL
 }
 
 function resetPlayer(){
@@ -116,9 +121,55 @@ function resetPlayer(){
   control.setGameEndToFalse()
   cells.resetBoard()
   control.resetPlayer();
+  displayTurn.textContent = 
   [...cellContainer.children].forEach((child)=> child.textContent = '')
+  displayResultDialog.close()
+  displayTurn.textContent = MSS_FOR_EMPTY_CELL
 }
 
+
+function addMorePlayer(){
+  if(customNameCon.querySelectorAll(".custom-input").length === MAX_PLAYERS){
+    alert('MAXIMUM PLAYER EXCEED - MAXIMUM OF 3 PLAYERS')
+    return;
+  } 
+  const div = document.createElement('div')
+  const label = document.createElement('label')
+  const input = document.createElement('input')
+  const btn = document.createElement('button')
+
+  label.textContent = 'Player 3:'
+  label.setAttribute('for', 'player3')
+
+  input.required = true
+  input.id = 'player3'
+  input.classList.add('custom-input')
+
+  btn.textContent = 'x'
+  btn.classList.add('remove-add-player')
+  btn.type = 'button'
+
+  div.append(label, " ",input, btn)
+  customNameForm.append(div)
+}
+
+function checkIfBoardIsEmpty(){
+  let isEmpty = cells.getCellInBoard().every((val) => val === "!");
+  if (!isEmpty) {
+    resetPlayer();
+  }
+  if (isEmpty && control.getAddPlayer().length >= MIN_PLAYERS) {
+    alert(
+      "You have already added players, Click 'Reset Player', then add new player"
+    );
+    return MSS_FOR_ALREADY_ADD_PLAYER
+  }
+}
+
+// Event Listener
+removeDisplayResult.addEventListener('click', ()=>{
+  displayResultDialog.close();
+})
 customNameCon.addEventListener('click', (e)=>{
   let clickBtn = e.target.className
   const markers = ['X', 'O', 'Q'];
@@ -145,24 +196,20 @@ customNameCon.addEventListener('click', (e)=>{
     case 'reset-player' : resetPlayer()
       break;
     case 'number-of-player' : (function(){
-      if(checkIfBoardIsEmpty() == MSS_FOR_ALREADY_ADD_PLAYER) return
       const input = container.querySelector(".input-number-of-player");
-      for(let i = 0; i < +input.value; i++){
-        control.addPlayer(input.value, markers[i], +input.value)
+      const inpVal = +input.value 
+      if(inpVal < MIN_PLAYERS || inpVal > MAX_PLAYERS || typeof inpVal != 'number' || isNaN(inpVal)) return
+      if(checkIfBoardIsEmpty() === MSS_FOR_ALREADY_ADD_PLAYER) return
+      for(let i = 0; i < inpVal; i++){
+        control.addPlayer(`Player ${i+1}`, markers[i], inpVal)
       }
     })()
+      break;
+    case 'add-more-players' : addMorePlayer()
+      break
+    case 'remove-add-player' : (function(){
+      e.target.closest('div').remove()
+    })();
+      break;
   }
 })
-
-function checkIfBoardIsEmpty(){
-  let isEmpty = cells.getCellInBoard().every((val) => val === "!");
-  if (!isEmpty) {
-    resetPlayer();
-  }
-  if (isEmpty && control.getAddPlayer().length >= MIN_PLAYERS) {
-    alert(
-      "You have already added players, Click 'Reset Player', then add new player"
-    );
-    return MSS_FOR_ALREADY_ADD_PLAYER
-  }
-}

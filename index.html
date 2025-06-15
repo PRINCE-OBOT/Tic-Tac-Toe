@@ -25,28 +25,33 @@
                     <button formmethod="dialog" class="number-of-player">Send</button>
                 </div>
             </form>
-            <button type="button" class="add-custom-name">Add Custom Name</button>
-            <button type="button" class="reset-board">Reset Board</button>
-            <button type="button" class="reset-player">Reset Player</button>
+            <div class="control-button">
+                <button type="button" class="add-custom-name">Add Custom Name</button>
+                <button type="button" class="reset-board">Reset Board</button>
+                <button type="button" class="reset-player">Reset Player</button>
+            </div>
             <dialog closedby="any">
                 <form action="">
-                    <div>
-                        <label for="player1">Player 1:</label>
-                        <input type="text" id="player1" class="custom-input" required>
-                    </div>
-                    <div>
-                        <label for="player2">Player 2:</label>
-                        <input type="text" id="player2" class="custom-input" required>
+                    <div class="custom-name-form">
+                        <div>
+                            <label for="player1">Player 1:</label>
+                            <input type="text" id="player1" class="custom-input" required>
+                        </div>
+                        <div>
+                            <label for="player2">Player 2:</label>
+                            <input type="text" id="player2" class="custom-input" required>
+                        </div>
                     </div>
                     <div>
                         <button class="submit-custom-name-form" formmethod="dialog">Submit</button>
-                        <button class="add-more-players">Add more players</button>
+                        <button class="add-more-players" type="button">Add more players</button>
                         <button class="close-custom-name-form" type="button">Close</button>
                         <button class="reset-custom-name-form" type="reset">Reset</button>
                     </div>
                 </form>
             </dialog>
         </div>
+        <div class="display-turn"></div>
        <div class="cell-container">
         <div class="cell"></div>
         <div class="cell"></div>
@@ -59,9 +64,9 @@
         <div class="cell"></div>
        </div>
        <div class="display-result-con">
-        <dialog class="display-result-dialog" closedby="any">
+        <dialog class="display-result-dialog" closedby="closerequest">
             <p class="display-result"></p>
-            <button>Close</button>
+            <button class="remove-display-result" type="button">X</button>
         </dialog>
        </div>
     </div>
