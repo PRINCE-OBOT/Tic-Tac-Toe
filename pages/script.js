@@ -4,7 +4,7 @@ const MIN_PLAYERS = 2
 const MAX_PLAYERS = 3
 const MSS_FOR_ALREADY_ADD_PLAYER = "Already added player";
 const MSS_FOR_MARKED_CELL = "The board is marked";
-const MSS_FOR_EMPTY_CELL = "No one played yet";
+const MSS_FOR_EMPTY_CELL = "No one has played yet";
 
 const container = document.querySelector('.container')
 const cellContainer = container.querySelector(".cell-container")
