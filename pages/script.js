@@ -177,6 +177,7 @@ customNameCon.addEventListener('click', (e)=>{
   switch(clickBtn){
     case 'submit-custom-name-form' :  (function () {
       const inputs = customNameCon.querySelectorAll(".custom-input");
+      if([...inputs].some((input)=> input.textContent.trim() === '')) return
       inputs.forEach((input, i) => {
         control.addPlayer(input.value,  markers[i], inputs.length);
       });
