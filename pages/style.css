@@ -151,11 +151,10 @@ button{
     align-items: center;
     transition: 400ms;
     &:hover{
-        opacity: 0.9;
+        background-color: rgb(31, 190, 31);
     }
     &:active{
-        opacity: 0.6;
-        transform: scale(0.9);
+        background-color: rgb(116, 219, 116);
     }
 }
 .display-result-dialog{

@@ -117,7 +117,7 @@ function resetBoard(){
 
 function resetPlayer(){
   let isResetPlayer = confirm('Resetting the player will also reset the board, click to continue')
-  if(!isResetPlayer) return falsezz
+  if(!isResetPlayer) return MSS_FOR_ALREADY_ADD_PLAYER
   control.setGameEndToFalse()
   cells.resetBoard()
   control.resetPlayer();
@@ -156,7 +156,7 @@ function addMorePlayer(){
 function checkIfBoardIsEmpty(){
   let isEmpty = cells.getCellInBoard().every((val) => val === "!");
   if (!isEmpty) {
-    resetPlayer();
+    if(resetPlayer() === MSS_FOR_ALREADY_ADD_PLAYER) return MSS_FOR_ALREADY_ADD_PLAYER
   }
   if (isEmpty && control.getAddPlayer().length >= MIN_PLAYERS) {
     alert(
@@ -177,7 +177,7 @@ customNameCon.addEventListener('click', (e)=>{
   switch(clickBtn){
     case 'submit-custom-name-form' :  (function () {
       const inputs = customNameCon.querySelectorAll(".custom-input");
-      if([...inputs].some((input)=> input.textContent.trim() === '')) return
+      if([...inputs].some((input)=> input.value.trim() === '')) return
       inputs.forEach((input, i) => {
         control.addPlayer(input.value,  markers[i], inputs.length);
       });
